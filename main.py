@@ -20,4 +20,4 @@ if __name__ == '__main__':
             apps.youtube()
         elif user_awnser == '6':
             apps.whatsapp()
-        apps.display_total_time()
+

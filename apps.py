@@ -1,38 +1,41 @@
 import time
 import random
 apps_usages = {}
-app_limits = {'calculator': 2, 'phone': 3, 'messages': 1, 'facebook': 3, 'youtube': 4, 'whatsapp': 2}
+app_limits = {'calculator': .1, 'phone': .1, 'messages': .1, 'facebook': .1, 'youtube': .1, 'whatsapp': .1}
+default_password = 123
 
 
-def password():
+def password(aplication):
+    user_response = input(f'You have reached the time limit of {aplication}.To reset enter a passcode.')
+    if default_password == int(user_response):
+        apps_usages[aplication] = 0
+    else:
+        print('incorect password, no changes made')
 
 
-def display_total_time():
-    print(apps_usages)
-
-def helper(aplications):
+def update_total_time(aplications, total_time):
     try:
-        apps_usages[applications] = apps_usages[applications] + total_time
+        apps_usages[aplications] = apps_usages[aplications] + total_time
     except:
-        apps_usages.update({applications: total_time})
+        apps_usages.update({aplications: total_time})
 
 
 def limiting(aplications):
-    limit_reached = app_limits[applications] < apps_usages.get(applications, 0)
+    limit_reached = app_limits[aplications] < apps_usages.get(aplications, 0)
     if limit_reached:
-        print('You have reached your time limit')
-        return
+        password(aplications)
+        return 0
     else:
         start_timer = time.perf_counter()
         time.sleep(random.randint(1, 10) / 100)
         end_timer = time.perf_counter()
         total_time = end_timer - start_timer
-        total_time = round(total_time, 2)
+        return round(total_time, 2)
 
 
 def calculate_and_track_time(applications):
-    limiting()
-    helper()
+    total_time = limiting(applications)
+    update_total_time(applications, total_time)
 
 def calculator():
     calculate_and_track_time('calculator')
